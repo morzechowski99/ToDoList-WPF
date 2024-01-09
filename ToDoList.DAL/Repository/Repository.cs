@@ -20,13 +20,38 @@ internal class Repository : IRepository
             .ToListAsync();
     }
 
+    public async Task<ToDoTaskDto?> GetTaskAsync(int id)
+    {
+        return (await _dbContext.ToDoTasks.FindAsync(id))?.AsTodoTaskDto();
+    }
+
     public async Task<ToDoTaskDto> CreateTaskAsync(CreateUpdateTaskDto createTaskDto)
     {
         if (createTaskDto?.Name is null)
             throw new ArgumentException("Invalid model", nameof(createTaskDto));
         var toDoTask = createTaskDto.AsTodoTask();
         await _dbContext.ToDoTasks.AddAsync(toDoTask);
+        await _dbContext.SaveChangesAsync();
         return toDoTask.AsTodoTaskDto();
     }
 
+    public async Task<ToDoTaskDto> UpdateTaskAsync(int id, CreateUpdateTaskDto updateTaskDto)
+    {
+        var task = await _dbContext.ToDoTasks.FindAsync(id);
+        if (task is null)
+            throw new ArgumentException("Task not found", nameof(id));
+        task = updateTaskDto.AsTodoTask(task);
+        _dbContext.ToDoTasks.Update(task);
+        await _dbContext.SaveChangesAsync();
+        return task.AsTodoTaskDto();
+    }
+
+    public async Task DeleteTaskAsync(int id)
+    {
+        var taskToRemove = await _dbContext.ToDoTasks.FindAsync(id);
+        if (taskToRemove is null)
+            throw new ArgumentException("Task not found", nameof(id));
+        _dbContext.ToDoTasks.Remove(taskToRemove);
+        await _dbContext.SaveChangesAsync();
+    }
 }

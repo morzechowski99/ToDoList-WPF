@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
-        xmlns:dbModels="clr-namespace:ToDoList.DbModels"
+        xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="MainWindow_OnLoaded">
     <Window.Resources>
         <!-- ReSharper disable once InconsistentNaming -->
         <CollectionViewSource x:Key="todosViewSource"/>
@@ -16,7 +17,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid Panel.ZIndex="1000" Name="LoadingOverlay" Grid.RowSpan="2">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"/>
+            </Grid.Background>
+            <DockPanel>
+                <TextBlock Text="Loading..." Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </DockPanel>
+            <!-- Add controls as needed -->
+        </Grid>
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -40,12 +50,12 @@
                 <CommandBinding Command="Delete" Executed="OnDelete"></CommandBinding>
             </DataGrid.CommandBindings>
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Done" Width="Auto" Binding="{Binding Path=(dbModels:Task.IsComplete), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Task" Width="*" Binding="{Binding Path=(dbModels:Task.Name)}">
+                <DataGridCheckBoxColumn Header="Done" Width="Auto" Binding="{Binding Path=(viewModels:TasksListItem.IsCompleted), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Task" Width="*" Binding="{Binding Path=(viewModels:TasksListItem.Name)}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Item.(dbModels:Task.IsComplete), NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Value="True">
+                                <DataTrigger Binding="{Binding Path=Item.(viewModels:TasksListItem.IsCompleted), NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Value="True">
                                     <Setter Property="TextDecorations" Value="Strikethrough"/>
                                 </DataTrigger>
                             </Style.Triggers>

@@ -8,10 +8,17 @@ internal static class Mapping
     internal static ToDoTask AsTodoTask(this CreateUpdateTaskDto createUpdateTaskDto) =>
         new()
         {
-            Id = createUpdateTaskDto.Id,
             Name = createUpdateTaskDto.Name,
             IsCompleted = createUpdateTaskDto.IsCompleted
         };
+
+    internal static ToDoTask AsTodoTask(this CreateUpdateTaskDto createUpdateTaskDto, ToDoTask original)
+    {
+        original.Name = createUpdateTaskDto.Name;
+        original.IsCompleted = createUpdateTaskDto.IsCompleted;
+        return original;
+    }
+
 
     internal static ToDoTaskDto AsTodoTaskDto(this ToDoTask toDoTask) =>
         new()

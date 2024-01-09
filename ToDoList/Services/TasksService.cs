@@ -37,4 +37,34 @@ internal class TasksService : ITasksService
         return (await _repository.GetTasksAsync())
             .Select(t => t.AsTasksListItem()).ToList();
     }
+
+    public async Task<bool> Delete(int id)
+    {
+        try
+        {
+            await _repository.DeleteTaskAsync(id);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> ToggleDone(int id)
+    {
+        try
+        {
+            var task = await _repository.GetTaskAsync(id);
+            if (task is null)
+                return false;
+            task.IsCompleted = !task.IsCompleted;
+            await _repository.UpdateTaskAsync(id, task.AsCreateUpdateTaskDto());
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
