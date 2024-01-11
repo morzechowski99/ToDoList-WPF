@@ -15,9 +15,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Panel.ZIndex="1000" Name="LoadingOverlay" Grid.RowSpan="2">
+        <Grid Panel.ZIndex="1000" Name="LoadingOverlay" Grid.RowSpan="3">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".5"/>
             </Grid.Background>
@@ -26,7 +27,11 @@
             </DockPanel>
             <!-- Add controls as needed -->
         </Grid>
-        <Grid Grid.Row="0">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Padding="15,5" Margin="5" Click="UndoButton_OnClick">Undo</Button>
+            <Button Padding="15,5" Margin="5" Click="RedoButton_OnClick">Redo</Button>
+        </StackPanel>
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -43,14 +48,15 @@
             </TextBox>
             <Button Grid.Row="1" Grid.Column="1" Name="AddTaskButton" Click="AddTaskButton_Click">Add</Button>
         </Grid>
-        <DataGrid Grid.Row="1" Grid.ColumnSpan="2" Margin="5" Name="TasksTable" AutoGenerateColumns="False"
+        <DataGrid Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Name="TasksTable" AutoGenerateColumns="False"
                   EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource todosViewSource}, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                  CanUserAddRows="False">
+                  CanUserAddRows="False" CanUserSortColumns="False">
             <DataGrid.CommandBindings>
                 <CommandBinding Command="Delete" Executed="OnDelete"></CommandBinding>
             </DataGrid.CommandBindings>
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Done" Width="Auto" Binding="{Binding Path=(viewModels:TasksListItem.IsCompleted), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridCheckBoxColumn Header="Done" Width="Auto"
+                                        Binding="{Binding Path=(viewModels:TasksListItem.IsCompleted), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Task" Width="*" Binding="{Binding Path=(viewModels:TasksListItem.Name)}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">

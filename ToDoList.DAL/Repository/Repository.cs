@@ -20,7 +20,7 @@ internal class Repository : IRepository
             .ToListAsync();
     }
 
-    public async Task<ToDoTaskDto?> GetTaskAsync(int id)
+    public async Task<ToDoTaskDto?> GetTaskAsync(Guid id)
     {
         return (await _dbContext.ToDoTasks.FindAsync(id))?.AsTodoTaskDto();
     }
@@ -35,7 +35,7 @@ internal class Repository : IRepository
         return toDoTask.AsTodoTaskDto();
     }
 
-    public async Task<ToDoTaskDto> UpdateTaskAsync(int id, CreateUpdateTaskDto updateTaskDto)
+    public async Task<ToDoTaskDto> UpdateTaskAsync(Guid id, CreateUpdateTaskDto updateTaskDto)
     {
         var task = await _dbContext.ToDoTasks.FindAsync(id);
         if (task is null)
@@ -46,7 +46,7 @@ internal class Repository : IRepository
         return task.AsTodoTaskDto();
     }
 
-    public async Task DeleteTaskAsync(int id)
+    public async Task DeleteTaskAsync(Guid id)
     {
         var taskToRemove = await _dbContext.ToDoTasks.FindAsync(id);
         if (taskToRemove is null)

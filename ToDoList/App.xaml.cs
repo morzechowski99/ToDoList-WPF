@@ -33,6 +33,7 @@ public partial class App : Application
         services.AddSingleton(configuration);
         services.AddDataAccessLayer(configuration.GetConnectionString("ToDoTasksDb") ?? throw new InvalidOperationException("Db Connection String is required"));
         services.AddScoped<ITasksService, TasksService>();
+        services.AddScoped<ICommandManager, CommandManager>();
         services.AddSingleton<MainWindow>();
     }
 

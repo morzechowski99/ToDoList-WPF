@@ -8,8 +8,10 @@ internal static class Mapping
     internal static ToDoTask AsTodoTask(this CreateUpdateTaskDto createUpdateTaskDto) =>
         new()
         {
+            Id = createUpdateTaskDto.Id ?? Guid.NewGuid(),
             Name = createUpdateTaskDto.Name,
-            IsCompleted = createUpdateTaskDto.IsCompleted
+            IsCompleted = createUpdateTaskDto.IsCompleted,
+            CreatedAt = createUpdateTaskDto.CreatedAt ?? DateTimeOffset.UtcNow
         };
 
     internal static ToDoTask AsTodoTask(this CreateUpdateTaskDto createUpdateTaskDto, ToDoTask original)
@@ -25,6 +27,7 @@ internal static class Mapping
         {
             Id = toDoTask.Id,
             Name = toDoTask.Name,
-            IsCompleted = toDoTask.IsCompleted
+            IsCompleted = toDoTask.IsCompleted,
+            CreatedAt = toDoTask.CreatedAt
         };
 }

@@ -4,8 +4,8 @@ namespace ToDoList.Interfaces;
 
 public interface ITasksService
 {
-    Task<TasksListItem?> Add(NewTask task);
+    Task<TasksListItem?> Add(NewTask task, Guid? id = null, DateTimeOffset? taskDate = null);
     Task<IEnumerable<TasksListItem>> GetAll();
-    Task<bool> Delete(int id);
-    Task<bool> ToggleDone(int id);
+    Task<bool> Delete(Guid id);
+    Task<bool> ToggleDone(Guid id);
 }

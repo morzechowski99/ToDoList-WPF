@@ -5,7 +5,7 @@ namespace ToDoList.DAL.Models;
 
 internal class ToDoTask
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -13,4 +13,6 @@ internal class ToDoTask
 
     [DefaultValue(false)]
     public bool IsCompleted { get; set; }
+
+    public DateTimeOffset CreatedAt { get; set; }
 }

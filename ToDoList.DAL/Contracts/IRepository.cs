@@ -5,8 +5,8 @@ namespace ToDoList.DAL.Contracts;
 public interface IRepository
 {
     Task<IReadOnlyCollection<ToDoTaskDto>> GetTasksAsync();
-    Task<ToDoTaskDto?> GetTaskAsync(int id);
+    Task<ToDoTaskDto?> GetTaskAsync(Guid id);
     Task<ToDoTaskDto> CreateTaskAsync(CreateUpdateTaskDto createTaskDto);
-    Task<ToDoTaskDto> UpdateTaskAsync(int id, CreateUpdateTaskDto updateTaskDto);
-    Task DeleteTaskAsync(int id);
+    Task<ToDoTaskDto> UpdateTaskAsync(Guid id, CreateUpdateTaskDto updateTaskDto);
+    Task DeleteTaskAsync(Guid id);
 }

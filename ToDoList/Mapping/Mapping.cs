@@ -9,13 +9,15 @@ internal static class Mapping
         new()
         {
             Name = newTask.Name ?? string.Empty,
+            IsCompleted = newTask.IsCompleted
         };
 
     internal static CreateUpdateTaskDto AsCreateUpdateTaskDto(this ToDoTaskDto toDoTaskDto) =>
         new()
         {
             Name = toDoTaskDto.Name,
-            IsCompleted = toDoTaskDto.IsCompleted
+            IsCompleted = toDoTaskDto.IsCompleted,
+            CreatedAt = toDoTaskDto.CreatedAt
         };
 
     internal static TasksListItem AsTasksListItem(this ToDoTaskDto toDoTaskDto) =>
@@ -23,6 +25,7 @@ internal static class Mapping
         {
             Id = toDoTaskDto.Id,
             Name = toDoTaskDto.Name,
-            IsCompleted = toDoTaskDto.IsCompleted
+            IsCompleted = toDoTaskDto.IsCompleted,
+            CreatedAt = toDoTaskDto.CreatedAt
         };
 }

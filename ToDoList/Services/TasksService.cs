@@ -14,7 +14,7 @@ internal class TasksService : ITasksService
         _repository = repository;
     }
 
-    public async Task<TasksListItem?> Add(NewTask task)
+    public async Task<TasksListItem?> Add(NewTask task, Guid? id = null, DateTimeOffset? taskDate = null)
     {
         if (task is null)
             throw new ArgumentNullException(nameof(task));
@@ -23,7 +23,10 @@ internal class TasksService : ITasksService
 
         try
         {
-            var createdTask = await _repository.CreateTaskAsync(task.AsCreateUpdateTaskDto());
+            var mapped = task.AsCreateUpdateTaskDto();
+            mapped.Id = id ?? Guid.NewGuid();
+            mapped.CreatedAt = taskDate ?? DateTimeOffset.Now;
+            var createdTask = await _repository.CreateTaskAsync(mapped);
             return createdTask.AsTasksListItem();
         }
         catch
@@ -38,7 +41,7 @@ internal class TasksService : ITasksService
             .Select(t => t.AsTasksListItem()).ToList();
     }
 
-    public async Task<bool> Delete(int id)
+    public async Task<bool> Delete(Guid id)
     {
         try
         {
@@ -51,7 +54,7 @@ internal class TasksService : ITasksService
         }
     }
 
-    public async Task<bool> ToggleDone(int id)
+    public async Task<bool> ToggleDone(Guid id)
     {
         try
         {
