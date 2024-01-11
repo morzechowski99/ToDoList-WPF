@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Windows;
 using ToDoList.DAL;
+using ToDoList.DAL.Contracts;
 using ToDoList.Interfaces;
 using ToDoList.Services;
 
@@ -37,8 +38,10 @@ public partial class App : Application
         services.AddSingleton<MainWindow>();
     }
 
-    private void App_OnStartup(object sender, StartupEventArgs e)
+    private async void App_OnStartup(object sender, StartupEventArgs e)
     {
+        var dbCreator = _serviceProvider.GetRequiredService<IDatabaseCreator>();
+        await dbCreator.CreateDatabaseIfNotExists();
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         mainWindow?.Show();
     }

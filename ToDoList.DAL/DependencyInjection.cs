@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoList.DAL.Contracts;
+using ToDoList.DAL.DatabaseCreating;
 
 namespace ToDoList.DAL;
 
@@ -14,5 +15,6 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IRepository, Repository.Repository>();
+        services.AddSingleton<IDatabaseCreator, DatabaseCreator>();
     }
 }

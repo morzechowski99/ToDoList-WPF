@@ -46,7 +46,7 @@
                     Path=Task.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True,
                     NotifyOnValidationError=True}">
             </TextBox>
-            <Button Grid.Row="1" Grid.Column="1" Name="AddTaskButton" Click="AddTaskButton_Click">Add</Button>
+            <Button Grid.Row="1" Grid.Column="1" Name="AddTaskButton" Click="AddTaskButton_Click" IsDefault="True">Add</Button>
         </Grid>
         <DataGrid Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Name="TasksTable" AutoGenerateColumns="False"
                   EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource todosViewSource}, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"

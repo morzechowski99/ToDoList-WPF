@@ -13,7 +13,6 @@ internal class ToDoListDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-    //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=toDoList;Trusted_Connection=True;");
         optionsBuilder.LogTo(x => Debug.WriteLine(x));
         base.OnConfiguring(optionsBuilder);
     }

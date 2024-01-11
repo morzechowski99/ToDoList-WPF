@@ -56,6 +56,8 @@ public partial class MainWindow : Window
 
     private async void OnDelete(object sender, ExecutedRoutedEventArgs e)
     {
+        if(MessageBox.Show("Are you sure you want to delete this task?", "Delete task", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            return;
         if ((sender as DataGrid)?.SelectedItem is not TasksListItem task) return;
         try
         {
@@ -66,7 +68,6 @@ public partial class MainWindow : Window
         {
             MessageBox.Show("Failed to delete task", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
     }
 
     private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
